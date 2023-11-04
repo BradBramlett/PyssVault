@@ -3,6 +3,7 @@ import pandas as pd
 from getpass import getpass, getuser
 from cryptography.fernet import Fernet
 from hashlib import sha256
+from pyperclip import copy
 import base64
 import os
 
@@ -116,15 +117,24 @@ def Search(f_key):
 	for passwd in vault[Selection]['Passwords']:
 		hash = passwd.encode()
 		if vault[Selection]['Passwords'].index(passwd) == 0:
-			print('\nPassword: '+decrypt(hash,f_key)+'\n')
+			hash = decrypt(hash,f_key)
+			print('\nPassword: '+ hash+'\n')
+			copy(hash)
+			print('Password Copied to clipboard')
 			if len(vault[Selection]['Passwords']) > 1:
 				print("\n\nMore Entries Available for this domain.\n\n")
 				Selection2 = str.upper(input('Show Other Passwords associated with Domain? Y/N: '))
 				if "Y" in Selection2:
+					counter = 1
 					print('\n')
 					for i in vault[Selection]['Passwords'][1::]:
 						i = i.encode()
-						print(decrypt(i)+'\n')
+						print(str(counter) + ') ' + decrypt(i,f_key) + '\n')
+						counter += 1
+					hash = vault[Selection]['Passwords'][int(input("\n\nSelect Password to copy to clipboard: "))]
+					hash = decrypt(hash.encode(), f_key)
+					copy(hash)
+					print('\nPassword has been copied to the clipboard')
 				else:
 					exit()
 
