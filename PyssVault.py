@@ -125,7 +125,7 @@ def Search(f_key):
                     print('\n')
                     for i in vault[Selection]['Passwords'][1::]:
                         i = i.encode()
-                        print(decrypt(i)+'\n')
+                        print(decrypt(i,f_key)+'\n')
                 else:
                     exit()
 
