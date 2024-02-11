@@ -82,7 +82,7 @@ def add(f_key):
     domain = input("\nDomain: ")
     username = input("\nUsername: ")
     key = str(domain + " - " + username)
-    if domain in vault.keys():
+    if key in vault.keys():
         vault[key]['Passwords'].append(encrypt(f_key))
         vault[key]['Passwords'].reverse()
     else:
